@@ -1,13 +1,13 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
 // MemoryGame component
 const MemoryGame = () => {
     // State variables
     const [initialPattern, setInitialPattern] = useState<number[][]>(Array(3).fill(Array(3).fill(0)))
-    const [userSequence, setUserSequence] = useState(Array(3).fill(Array(3).fill(0)))
+    const [userSequence, setUserSequence] = useState<Array<number[]>>(Array(3).fill(Array(3).fill(0)))
     const [showInitial, setShowInitial] = useState(true)
     const [rightCount, setRightCount] = useState(0)
     const [errorCount, setErrorCount] = useState(0)
@@ -43,8 +43,8 @@ const MemoryGame = () => {
       const audio = new Audio('/sounds/click-sound.mp3')
       audio.play()
       setUserSequence(prevSequence => 
-        prevSequence.map((row, rIdx) =>
-          row.map((cell: any, cIdx: any) => {
+        prevSequence.map((row: number[], rIdx: number) =>
+          row.map((cell: number, cIdx: number) => {
             if (rIdx === rowIndex && cIdx === colIndex) {
               if (initialPattern[rowIndex][colIndex] === 1) {
                 if (initialPattern.flat().filter(cell => cell === 1).length === rightCount + 1) {
@@ -82,7 +82,7 @@ const MemoryGame = () => {
                 return 2
               }
             }
-            return cell
+            return cell;
           })
         )
       )
@@ -104,8 +104,8 @@ const MemoryGame = () => {
             className='rounded-lg gap-2 p-4 grid'
             style={{ gridTemplateColumns: `repeat(${initialPattern[0]?.length || 0}, minmax(0, 1fr))` }}
           >
-            {(showInitial ? initialPattern : userSequence).map((row: any[], rowIndex: number) =>
-              row.map((cell: any, colIndex: number) => (
+            {(showInitial ? initialPattern : userSequence).map((row: number[], rowIndex: number) =>
+              row.map((cell: number, colIndex: number) => (
                 <motion.div
                   key={`${rowIndex}-${colIndex}`}
                   className={`flex items-center justify-center rounded-lg cursor-pointer ${
