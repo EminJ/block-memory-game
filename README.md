@@ -32,7 +32,7 @@ or
 ```
 
 ## Demo
-Check out the live demo here: [Vercel Link]
+Check out the live demo here: [[Vercel](https://block-memory-game.vercel.app/)]
 
 Once the server is running, open [http://localhost:3000](http://localhost:3000) in your browser to see the game.
 
