@@ -41,22 +41,22 @@ const MemoryGame = () => {
     // Handle cell click event
     const handleCellClick = (rowIndex: number, colIndex: number) => {
       const audio = new Audio('/sounds/click-sound.mp3')
-      audio.play()
-      setUserSequence(prevSequence => 
+      audio.play().catch(error => console.error("Audio play error:", error))
+      setUserSequence((prevSequence: number[][]) => 
         prevSequence.map((row: number[], rIdx: number) =>
           row.map((cell: number, cIdx: number) => {
             if (rIdx === rowIndex && cIdx === colIndex) {
               if (initialPattern[rowIndex][colIndex] === 1) {
-                if (initialPattern.flat().filter(cell => cell === 1).length === rightCount + 1) {
+                if (initialPattern.flat().filter((cell: number) => cell === 1).length === rightCount + 1) {
                   const audio = new Audio('/sounds/success.mp3')
-                  audio.play()
+                  audio.play().catch(error => console.error("Audio play error:", error))
                   setUserLevel(userLevel + 1)
                   setRightCount(0)
                   setErrorCount(0)
                   setShowInitial(true)
                   updatePatternAndSequence(userLevel + 1)
-                  const timer = setTimeout(() => setShowInitial(false), 2000)
-                  return () => clearTimeout(timer)
+                  setTimeout(() => setShowInitial(false), 2000)
+                  return 1
                 }
                 setRightCount(rightCount + 1)
                 return 1
@@ -73,12 +73,12 @@ const MemoryGame = () => {
                   setRightCount(0)
                   setErrorCount(0)
                   setShowInitial(true)
-                  const timer = setTimeout(() => setShowInitial(false), 2000)
-                  return () => clearTimeout(timer)
+                  setTimeout(() => setShowInitial(false), 2000)
+                  return 2
                 }
                 setErrorCount(errorCount + 1)
                 const audio = new Audio('/sounds/wrong.mp3')
-                audio.play()
+                audio.play().catch(error => console.error("Audio play error:", error))
                 return 2
               }
             }
